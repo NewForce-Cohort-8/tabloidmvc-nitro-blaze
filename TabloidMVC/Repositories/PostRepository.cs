@@ -135,9 +135,13 @@ namespace TabloidMVC.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"Select p.Id, p.Title, p.Content, p.ImageLocation, p.CreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
-                      c.Id AS ""Comment Id"", c.PostId, c.UserProfileId, c.Subject, c.Content, c.CreateDateTime
+                      c.Id AS ""Comment Id"", c.PostId, c.UserProfileId, c.Subject, c.Content, c.CreateDateTime,
+                      ca.Name AS ""Category Name"", ca.Id AS ""Category Id"",
+                      u.Id, u.DisplayName, u.FirstName, u.LastName, u.Email, u.CreateDateTime, u.ImageLocation, u.UserTypeId
                       from Post p
                       left join Comment c on c.PostId = p.Id
+                      left join Category ca on ca.Id = p.CategoryId
+                      left join UserProfile u on u.Id = p.UserProfileId
                       where p.Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -155,11 +159,13 @@ namespace TabloidMVC.Repositories
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Content = reader.GetString(reader.GetOrdinal("Content")),
-                                ImageLocation = DbUtils.GetNullableString(reader, "HeaderImage"),
+                                ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
                                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                                 PublishDateTime = DbUtils.GetNullableDateTime(reader, "PublishDateTime"),
                                 CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                                Comments = new List<Comment>()
+                                Comments = new List<Comment>(),
+                                UserProfile = new UserProfile(),
+                                Category = new Category(),
                             };
 
                         }
@@ -175,6 +181,30 @@ namespace TabloidMVC.Repositories
                                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
                             };
                             post.Comments.Add(comment);
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Category Id")))
+                        {
+                            Category category = new Category()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Category Id")),
+                                Name = reader.GetString(reader.GetOrdinal("Category Name")),
+                            };
+                            post.Category = category;
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("UserProfileId")))
+                        {
+                            UserProfile userProfile = new UserProfile()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Email = reader.GetString(reader.GetOrdinal("Email")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                                ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                                UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                            };
+                            post.UserProfile = userProfile;
                         }
                     }
                     reader.Close();
