@@ -110,6 +110,43 @@ namespace TabloidMVC.Controllers
             }
         }
 
+        // GET: DogController/Delete/5
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            int userId = GetCurrentUserProfileId();
+
+            Post post = _postRepository.GetPublishedPostById(id);
+
+            if (post.UserProfileId != userId)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(post);
+            };
+        }
+
+        // POST: DogController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, Post post)
+        {
+            try
+            {
+                post.UserProfileId = GetCurrentUserProfileId();
+
+                _postRepository.DeletePost(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(post);
+            }
+        }
+
         private int GetCurrentUserProfileId()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
