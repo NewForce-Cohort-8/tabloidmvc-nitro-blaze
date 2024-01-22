@@ -127,6 +127,61 @@ namespace TabloidMVC.Repositories
             }
         }
 
+        public Post GetPostWithComments(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Select p.Id, p.Title, p.Content, p.ImageLocation, p.CreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
+                      c.Id AS ""Comment Id"", c.PostId, c.UserProfileId, c.Subject, c.Content, c.CreateDateTime
+                      from Post p
+                      left join Comment c on c.PostId = p.Id
+                      where p.Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    Post post = null;
+                    while (reader.Read())
+                    {
+                        if (post == null)
+                        {
+
+                            post = new Post()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                Content = reader.GetString(reader.GetOrdinal("Content")),
+                                ImageLocation = DbUtils.GetNullableString(reader, "HeaderImage"),
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                                PublishDateTime = DbUtils.GetNullableDateTime(reader, "PublishDateTime"),
+                                CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                                Comments = new List<Comment>()
+                            };
+
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Comment Id")))
+                        {
+                            Comment comment = new Comment()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Comment Id")),
+                                Subject = reader.GetString(reader.GetOrdinal("Subject")),
+                                Content = reader.GetString(reader.GetOrdinal("Content")),
+                                PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
+                            };
+                            post.Comments.Add(comment);
+                        }
+                    }
+                    reader.Close();
+                    return post;
+                }
+            }
+        }
 
         public void Add(Post post)
         {
@@ -211,7 +266,6 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
-
 
         private Post NewPostFromReader(SqlDataReader reader)
         {
