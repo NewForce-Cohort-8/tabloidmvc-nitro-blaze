@@ -135,7 +135,7 @@ namespace TabloidMVC.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"Select p.Id, p.Title, p.Content, p.ImageLocation, p.CreateDateTime, p.PublishDateTime, p.IsApproved, p.CategoryId, p.UserProfileId,
-                      c.Id AS ""Comment Id"", c.PostId, c.UserProfileId, c.Subject, c.Content, c.CreateDateTime,
+                      c.Id AS ""Comment Id"", c.PostId, c.UserProfileId, c.Subject, c.Content AS ""Comment Content"", c.CreateDateTime,
                       ca.Name AS ""Category Name"", ca.Id AS ""Category Id"",
                       u.Id, u.DisplayName, u.FirstName, u.LastName, u.Email, u.CreateDateTime, u.ImageLocation, u.UserTypeId
                       from Post p
@@ -169,19 +169,6 @@ namespace TabloidMVC.Repositories
                             };
 
                         }
-                        if (!reader.IsDBNull(reader.GetOrdinal("Comment Id")))
-                        {
-                            Comment comment = new Comment()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Comment Id")),
-                                Subject = reader.GetString(reader.GetOrdinal("Subject")),
-                                Content = reader.GetString(reader.GetOrdinal("Content")),
-                                PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
-                                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
-                            };
-                            post.Comments.Add(comment);
-                        }
                         if (!reader.IsDBNull(reader.GetOrdinal("Category Id")))
                         {
                             Category category = new Category()
@@ -204,6 +191,20 @@ namespace TabloidMVC.Repositories
                                 ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
                                 UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
                             };
+                            if (!reader.IsDBNull(reader.GetOrdinal("Comment Id")))
+                            {
+                                Comment comment = new Comment()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Comment Id")),
+                                    Subject = reader.GetString(reader.GetOrdinal("Subject")),
+                                    Content = reader.GetString(reader.GetOrdinal("Comment Content")),
+                                    PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                                    UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                                    UserProfile = userProfile,
+                                    CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
+                                };
+                                post.Comments.Add(comment);
+                            }
                             post.UserProfile = userProfile;
                         }
                     }

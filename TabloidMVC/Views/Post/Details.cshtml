@@ -37,12 +37,19 @@
             <p class="col-sm-12 mt-5">@Html.DisplayFor(model => model.Content)</p>
         </section>
 
+
         <section class="row post__comments">
             <h1> Comments Go Here </h1>
             @foreach (Comment comment in Model.Comments)
             {
-                <p>@comment.Subject</p>
-                <p>@comment.Content</p>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@comment.Subject</h5>
+                         <h6 class="card-subtitle mb-2 text-body-secondary">@comment.Content</h6>
+                         <p class="card-text">@comment.CreateDateTime</p>
+                        <p class="card-text">@comment.UserProfile.DisplayName</p>
+                     </div>
+                </div>
             }
         </section>
     </div>
