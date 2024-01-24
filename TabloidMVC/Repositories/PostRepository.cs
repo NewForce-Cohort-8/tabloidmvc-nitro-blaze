@@ -288,6 +288,8 @@ namespace TabloidMVC.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+                            DELETE from Comment
+                            WHERE PostId = @id
                             DELETE FROM Post
                             WHERE Id = @id
                         ";
