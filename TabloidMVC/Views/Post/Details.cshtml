@@ -9,41 +9,44 @@
         <section class="px-3">
             <div class="row justify-content-between">
                 <h1 class="text-secondary">@Model.Title</h1>
-                <h1 class="text-black-50">@Model.Category.Name</h1>
+                <h5 class="text-black-50">Category: @Model.Category.Name</h5>
             </div>
             <div class="row justify-content-between">
                 <p class="text-secondary">Written by @Model.UserProfile.DisplayName</p>
                 <p class="text-black-50">Published on @Html.DisplayFor(model => model.PublishDateTime)</p>
             </div>
-            <div class="row">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                    <i class="fas fa-pencil-alt"></i>
-                </a>
-                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </div>
         </section>
         <hr />
-        @if (!string.IsNullOrWhiteSpace(Model.ImageLocation))
-        {
-            <section class="row justify-content-center">
-                <div>
-                    <img src="@Model.ImageLocation" />
-                </div>
-            </section>
-        }
-        <section class="row post__content">
-            <p class="col-sm-12 mt-5">@Html.DisplayFor(model => model.Content)</p>
+        <section class="text-center">
+            <div class="card mx-auto" style="width: 35rem;">
+            @if (!string.IsNullOrWhiteSpace(Model.ImageLocation))
+            {
+                <section class="row justify-content-center">
+                    <div>
+                        <img src="@Model.ImageLocation" class="card-img-top" alt="...">
+                    </div>
+                </section>
+            }
+            <div class="card-body">
+                <p class="card-text">@Model.Content</p>
+            </div>
+        </div>
         </section>
 
+        <div class="container" style=" max-width: 400px; margin: auto;">
+         <div class="row">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>  <p> Edit Post </p>
+            </a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                    <i class="fas fa-trash"></i>  <p> Delete Post </p>
+            </a>
+         </div>
+        </div>
 
-        <p>
-            <a class="btn btn-primary" asp-action="Details" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">View Comment</a>
-        </p>
-
+        <div class="container">
         <section class="row post__comments">
-            <h1> Comments Go Here </h1>
+            <h2> Comment Section For @Model.Title </h2>
             @foreach (Comment comment in Model.Comments)
             {
                 <div class="card" style="width: 18rem;">
@@ -56,5 +59,6 @@
                 </div>
             }
         </section>
+        </div>
     </div>
 </div>

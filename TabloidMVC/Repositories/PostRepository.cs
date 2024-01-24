@@ -142,7 +142,8 @@ namespace TabloidMVC.Repositories
                       left join Comment c on c.PostId = p.Id
                       left join Category ca on ca.Id = p.CategoryId
                       left join UserProfile u on u.Id = p.UserProfileId
-                      where p.Id = @id";
+                      where p.Id = @id
+                      ORDER BY c.CreateDateTime DESC; ";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
