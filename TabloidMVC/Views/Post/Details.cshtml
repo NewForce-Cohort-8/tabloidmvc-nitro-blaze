@@ -36,16 +36,16 @@
         <div class="container" style=" max-width: 400px; margin: auto;">
          <div class="row">
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                    <i class="fas fa-pencil-alt"></i>  <p> Edit Post </p>
+                    <i class="fas fa-pencil-alt"></i>  
             </a>
             <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
-                    <i class="fas fa-trash"></i>  <p> Delete Post </p>
+                    <i class="fas fa-trash"></i>  
             </a>
          </div>
         </div>
 
-        <div class="container">
-        <section class="row post__comments">
+    
+        <section class="row post__comments" style="margin: auto">
             <h2> Comment Section For @Model.Title </h2>
             @foreach (Comment comment in Model.Comments)
             {
@@ -59,6 +59,6 @@
                 </div>
             }
         </section>
-        </div>
+  
     </div>
 </div>
