@@ -38,6 +38,10 @@
         </section>
 
 
+        <p>
+            <a class="btn btn-primary" asp-action="Details" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">View Comment</a>
+        </p>
+
         <section class="row post__comments">
             <h1> Comments Go Here </h1>
             @foreach (Comment comment in Model.Comments)
