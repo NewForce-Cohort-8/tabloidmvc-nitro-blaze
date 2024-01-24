@@ -16,6 +16,8 @@
                 <p class="text-black-50">Published on @Html.DisplayFor(model => model.PublishDateTime)</p>
             </div>
         </section>
+    </div>
+  
         <hr />
         <section class="text-center">
             <div class="card mx-auto" style="width: 35rem;">
@@ -30,32 +32,37 @@
             <div class="card-body">
                 <p class="card-text">@Model.Content</p>
             </div>
-        </div>
-        </section>
+            <div class="container" style=" max-width: 400px; margin-left: auto;">
+                <div class="row">
 
-        <div class="container" style=" max-width: 400px; margin: auto;">
-         <div class="row">
-                <p>
+
                     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                        <i class="fas fa-pencil-alt"></i> <p>Edit</p>
+                        <i class="fas fa-pencil-alt"> </i>
                     </a>
-                </p>
-                <p>
+
+
                     <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
                         <i class="fas fa-trash"></i>
                     </a>
-                </p>
-         </div>
-        </div>
 
+                </div>
+            </div>
+
+
+        </section>
+
+    <hr />
 
         <p>
-            <a class="btn btn-primary" asp-action="Create" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">New Comment</a>
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]"> Add A New Comment</a>
         </p>
 
  
         <section class="row post__comments" style="margin: auto">
-            <h2> Comment Section For @Model.Title </h2>
+        <div class="text-center">
+            <h3>Comments About "@Model.Title"</h3>
+        </div>
+
             @foreach (Comment comment in Model.Comments)
             {
                 <div class="card" style="width: 18rem;">
@@ -65,10 +72,14 @@
                          <p class="card-text">@comment.CreateDateTime</p>
                         <p class="card-text">@comment.UserProfile.DisplayName</p>
                      </div>
+             
+                <p>
+                    <a asp-action="Edit" asp-controller="Comment" asp-route-id="@comment.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </p>
                 </div>
-                <a asp-action="Edit" asp-controller="Comment" asp-route-id="@comment.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                    <i class="fas fa-pencil-alt"></i>
-                </a>
+               
             }
         </section>
 
