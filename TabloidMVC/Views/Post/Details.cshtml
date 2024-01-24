@@ -33,6 +33,7 @@
         </div>
         </section>
 
+<<<<<<< HEAD
         <div class="container" style=" max-width: 400px; margin: auto;">
          <div class="row">
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
@@ -60,5 +61,11 @@
             }
         </section>
   
+=======
+        <p>
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">New Comment</a>
+        </p>
+
+>>>>>>> main
     </div>
 </div>
