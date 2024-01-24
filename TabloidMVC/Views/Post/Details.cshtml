@@ -36,5 +36,10 @@
         <section class="row post__content">
             <p class="col-sm-12 mt-5">@Html.DisplayFor(model => model.Content)</p>
         </section>
+
+        <p>
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">New Comment</a>
+        </p>
+
     </div>
 </div>
