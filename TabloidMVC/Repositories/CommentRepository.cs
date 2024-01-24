@@ -1,19 +1,11 @@
-<<<<<<< HEAD
-﻿namespace TabloidMVC.Repositories
-=======
-﻿using TabloidMVC.Models;
+using TabloidMVC.Models;
 
 namespace TabloidMVC.Repositories
->>>>>>> main
+
 {
     public class CommentRepository : BaseRepository, ICommentRepository
     {
         public CommentRepository(IConfiguration config) : base(config) { }
-<<<<<<< HEAD
-    }
-
-}
-=======
 
         public void Add(Comment comment)
         {
@@ -42,4 +34,4 @@ namespace TabloidMVC.Repositories
 
     }
 }
->>>>>>> main
+
