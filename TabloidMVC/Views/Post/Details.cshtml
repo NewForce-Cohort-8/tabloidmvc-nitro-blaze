@@ -35,14 +35,23 @@
 
         <div class="container" style=" max-width: 400px; margin: auto;">
          <div class="row">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                    <i class="fas fa-pencil-alt"></i>  
-            </a>
-            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
-                    <i class="fas fa-trash"></i>  
-            </a>
+                <p>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                        <i class="fas fa-pencil-alt"></i> <p>Edit</p>
+                    </a>
+                </p>
+                <p>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </p>
          </div>
         </div>
+
+
+        <p>
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">New Comment</a>
+        </p>
 
  
         <section class="row post__comments" style="margin: auto">
@@ -57,12 +66,11 @@
                         <p class="card-text">@comment.UserProfile.DisplayName</p>
                      </div>
                 </div>
+                <a asp-action="Edit" asp-controller="Comment" asp-route-id="@comment.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
             }
         </section>
-  
-        <p>
-            <a class="btn btn-primary" asp-action="Create" asp-controller="Comment" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">New Comment</a>
-        </p>
 
     </div>
 </div>
