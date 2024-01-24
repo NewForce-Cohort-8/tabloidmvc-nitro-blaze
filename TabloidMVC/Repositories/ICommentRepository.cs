@@ -1,4 +1,4 @@
-﻿using TabloidMVC.Models;
+using TabloidMVC.Models;
 
 namespace TabloidMVC.Repositories
 {

@@ -9,6 +9,7 @@ namespace TabloidMVC.Repositories
         void DeletePost(int id);
         List<Post> GetAllPublishedPosts();
         Post GetPublishedPostById(int id);
+        Post GetPostWithComments(int id);
         Post GetUserPostById(int id, int userProfileId);
     }
 }
