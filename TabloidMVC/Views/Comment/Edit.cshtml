@@ -19,7 +19,8 @@
             </div>
             <div class="form-group" hidden>
                 <label asp-for="PostId" class="control-label"></label>
-                <input asp-for="PostId" value="@Url.ActionContext.RouteData.Values["id"]" class="form-control" />
+                @* <input asp-for="PostId" value="@Url.ActionContext.RouteData.Values["id"]" class="form-control" /> *@
+                <input asp-for="PostId" value="@Model.PostId" class="form-control" />
                 <span asp-validation-for="PostId" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
