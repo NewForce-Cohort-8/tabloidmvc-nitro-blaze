@@ -99,11 +99,8 @@ namespace TabloidMVC.Controllers
         public ActionResult Delete(int id)
         {
             int userId = GetCurrentUserProfileId();
-
             Comment comment = _commentRepository.GetCommentById(id);
-
             int postId = comment.PostId;
-
             if (comment.PostId != postId)
             {
                 return NotFound();
@@ -113,13 +110,24 @@ namespace TabloidMVC.Controllers
                 return View(comment);
             };
         }
-
         // POST: CommentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, Comment comment)
         {
-
+            Comment commentToDelete = _commentRepository.GetCommentById(id);
+            // Ensure that the user deleting the comment is the owner
+            int userId = GetCurrentUserProfileId();
+            if (commentToDelete.UserProfileId != userId)
+            {
+                return NotFound();
+            }
+            // Store the PostId before deleting the comment
+            int postId = commentToDelete.PostId;
+            // Delete the comment
+            _commentRepository.DeleteComment(id);
+            // Redirect back to the post using the stored PostId
+            return RedirectToAction("Details", "Post", new { id = postId });
         }
 
 
