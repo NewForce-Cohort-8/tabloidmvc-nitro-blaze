@@ -28,16 +28,14 @@ namespace TabloidMVC.Controllers
 
         public IActionResult Details(int id)
         {
-            var post = _postRepository.GetPublishedPostById(id);
+
+            Post post = _postRepository.GetPostWithComments(id);
+
             if (post == null)
             {
-                int userId = GetCurrentUserProfileId();
-                post = _postRepository.GetUserPostById(id, userId);
-                if (post == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
+
             return View(post);
         }
 
@@ -128,7 +126,7 @@ namespace TabloidMVC.Controllers
             };
         }
 
-        // POST: DogController/Delete/5
+        // POST: PostController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Post post)
