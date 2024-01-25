@@ -98,22 +98,28 @@ namespace TabloidMVC.Controllers
         // GET: CommentController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            int userId = GetCurrentUserProfileId();
+
+            Comment comment = _commentRepository.GetCommentById(id);
+
+            int postId = comment.PostId;
+
+            if (comment.PostId != postId)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(comment);
+            };
         }
 
         // POST: CommentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
         }
 
 

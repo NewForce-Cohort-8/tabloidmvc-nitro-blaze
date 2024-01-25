@@ -108,7 +108,7 @@ namespace TabloidMVC.Controllers
             }
         }
 
-        // GET: DogController/Delete/5
+        // GET: PostController/Delete/5
         [Authorize]
         public ActionResult Delete(int id)
         {
