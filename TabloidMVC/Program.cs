@@ -1,5 +1,8 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using TabloidMVC.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using TabloidMVC.Data;
 
 namespace TabloidMVC
 {
@@ -8,6 +11,8 @@ namespace TabloidMVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<TabloidMVCContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("TabloidMVCContext") ?? throw new InvalidOperationException("Connection string 'TabloidMVCContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
