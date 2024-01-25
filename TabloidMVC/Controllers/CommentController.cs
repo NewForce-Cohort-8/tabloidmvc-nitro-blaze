@@ -131,7 +131,6 @@ namespace TabloidMVC.Controllers
         }
 
 
-
         private int GetCurrentUserProfileId()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
