@@ -6,7 +6,6 @@ namespace TabloidMVC.Repositories
     {
         void Add(Comment comment);
         void EditComment(Comment comment);
-
         void DeleteComment(int id);
         Comment GetCommentById(int id);
 

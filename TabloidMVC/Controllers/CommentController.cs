@@ -99,8 +99,11 @@ namespace TabloidMVC.Controllers
         public ActionResult Delete(int id)
         {
             int userId = GetCurrentUserProfileId();
+
             Comment comment = _commentRepository.GetCommentById(id);
+
             int postId = comment.PostId;
+
             if (comment.PostId != postId)
             {
                 return NotFound();
