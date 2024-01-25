@@ -1,0 +1,17 @@
+﻿@model TabloidMVC.Models.Tag
+
+@{
+    // Setting the title of the page using the Tag name
+    ViewData["Title"] = $"Tag - {Model.Name}";
+}
+
+<div class="container pt-5">
+    <div class="tag">
+        <section class="px-3">
+            <div class="row justify-content-between">
+                
+                <h1 class="text-black-50">@Model.Name</h1> 
+            </div>
+        </section>
+    </div>
+</div>
